@@ -1,0 +1,16 @@
+- name: docker configure
+  hosts: local
+  tasks:
+  - name: docker build
+    command: docker build -t leedowon/myweb:1.0 /home/vagrant/myweb_dir
+  - name: docker push
+    command: docker push leedowon/myweb:1.0
+
+- name: docker run container on DockerHost
+  hosts: docker
+  tasks:
+  - name: docker pull
+    command: docker pull leedowon/myweb:1.0
+  - name: docker run
+    command: docker run --name tomcat-myweb -d -p 8080:8080 leedowon/myweb:1.0
+
