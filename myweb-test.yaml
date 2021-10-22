@@ -1,0 +1,29 @@
+- name: docker configure
+  hosts: local
+  tasks:
+  - name: docker build and push
+    community.docker.docker_image:
+      build:
+        path: /home/vagrant/myweb_dir
+      name: leedowon/myweb
+      tag: 1.0
+      push: yes
+      source: build
+
+- name: docker run container on DockerHost
+  hosts: docker
+  tasks:
+  - name: docker pull
+    community.docker.docker_image:
+      name: leedowon/myweb
+      tag: 1.0
+      source: pull
+      pull:
+        platform: amd64
+  - name: docker run
+    community.docker.docker_container:
+      name: tomcat-myweb
+      image: leedowon/myweb:1.0
+      ports:
+      # Publish container port 9000 as host port 8080
+      - "8080:8080"
