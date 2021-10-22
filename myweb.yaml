@@ -13,5 +13,5 @@
 - name: kubernetes configure
   hosts: kube
   tasks:
-  - name: send manifest to kubeHost
+  - name: run deployment on kubeHost
     command: kubectl apply -f manifest.yaml
